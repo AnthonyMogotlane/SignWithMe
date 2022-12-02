@@ -19,7 +19,7 @@ const preloader = document.querySelector(".preloader-container");
 let playerScore = 0;
 let index = 0;
 let progress = 0;
-//let challenges = [];
+let challenges = [];
 
 const timeLimit = 20;
 let countDown = timeLimit;
