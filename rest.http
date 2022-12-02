@@ -1,4 +1,4 @@
-GET https://localhost:7040/api/signs/A HTTP/1.1
+GET https://localhost:7040/api/signs/ HTTP/1.1
 
 ###
 

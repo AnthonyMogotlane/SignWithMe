@@ -13,14 +13,15 @@ const body = document.querySelector("body");
 const tryBtn = document.querySelector(".try-btn");
 const fireworks = document.querySelector(".pyro");
 const playBtn = document.querySelector(".play-btn");
+const preloader = document.querySelector(".preloader-container");
 
 // variables
 let playerScore = 0;
 let index = 0;
 let progress = 0;
-let challenges = [];
+//let challenges = [];
 
-const timeLimit = 15;
+const timeLimit = 20;
 let countDown = timeLimit;
 
 let timerInterval;
@@ -28,7 +29,6 @@ let timerInterval;
 function theTimer() {
   if (countDown > 0) {
     countDown--;
-    console.log(countDown);
     timer.innerHTML = `${countDown}s`;
   } else {
     tryBtn.classList.remove("d-none");
@@ -86,42 +86,52 @@ async function predict() {
       <div class="progress-bar bg-success progress-bar-striped" role="progressbar" style="width: ${progress}%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">${progress}%</div>
     </div>`;
 
+
   if (
-    prediction[index].className === challenges[index - 1].alphabet &&
-    prediction[index].probability >= 0.95
+    prediction[index].className === challenges[index].alphabet && prediction[index].probability >= 0.95
   ) {
-    curResult.innerHTML = `<h2>👌Great</h2>`;
+    curResult.innerHTML = `<h2 class="great">👌Great</h2>`;
     nextBtn.classList.remove("d-none");
 
-    stopper();
+    stopper(); // Stop time out
 
     body.classList.remove("bg-white");
     body.classList.remove("bg-danger");
     body.classList.add("bg-success");
 
     if (index === 5) {
-      challengeContainer.classList.add("d-none");
       nextBtn.classList.add("d-none");
-      timer.classList.add("d-none");
-
-      body.classList.remove("bg-success");
-      fireworks.classList.remove("d-none");
-      playBtn.classList.remove("d-none");
+      curResult.innerHTML = `<h2 class="great">Well done!</h2>`;
+      setTimeout(function() {
+        challengeContainer.classList.add("d-none");
+        nextBtn.classList.add("d-none");
+        timer.classList.add("d-none");
+  
+        body.classList.remove("bg-success");
+        fireworks.classList.remove("d-none");
+        playBtn.classList.remove("d-none");
+        playBtn.classList.add("trans");
+      }, 3000)
     }
   }
 }
 
 const startChallenge = async () => {
-  await init();
+   await init();
 
   startBtn.classList.add("d-none");
   startArrow.classList.add("d-none");
-  challengeContainer.classList.remove("d-none");
-  timer.classList.remove("d-none");
-
+  
+  preloader.classList.remove("d-none");
+  
   setTimeout(function () {
+    challengeContainer.classList.remove("d-none"); 
+    challengeContainer.classList.add("trans"); // test
+    timer.classList.remove("d-none");
+
+    preloader.classList.add("d-none");
     nextSign();
-  }, 1000);
+  }, 4000);
 };
 
 startBtn.addEventListener("click", startChallenge);
@@ -132,7 +142,7 @@ const nextSign = () => {
   challenge.innerHTML = `
   <div class="heading">
   <h4 class="text-center">Alphabet to sign</h4>
-  <img src=${challenges[index].imageFile} class="challenge-img" alt="A-Sign" />
+  <img src=${challenges[index + 1].imageFile} class="challenge-img" alt="A-Sign" />
   </div>`;
 
   progressContainer.innerHTML = `  
@@ -144,8 +154,10 @@ const nextSign = () => {
 
   index++;
   nextBtn.classList.add("d-none");
-  curResult.innerHTML = `<h2>👉</h2>`;
-  score.innerHTML = `${parseInt(score.textContent) + 10}pts`;
+  curResult.innerHTML = `<h2 class="at-right">👉</h2>`;
+
+  score.innerHTML = `${parseInt(score.textContent) + playerScore}pts`;
+  playerScore = 10;
   body.classList.remove("bg-success");
   body.classList.add("bg-white");
 
@@ -157,9 +169,9 @@ nextBtn.addEventListener("click", nextSign);
 
 // Try again function
 const trainAgain = () => {
-  countDown = 15;
+  countDown = timeLimit;
 
-  curResult.innerHTML = `<h2>👉</h2>`;
+  curResult.innerHTML = `<h2 class="at-right">👉</h2>`;
 
   tryBtn.classList.add("d-none");
   body.classList.add("bg-white");
@@ -169,7 +181,7 @@ const trainAgain = () => {
 tryBtn.addEventListener("click", trainAgain);
 
 function getSigns() {
-  axios.get("/api/signs")
+  axios.get("http://signwithme.anthony.projectcodex.net/api/signs")
     .then(result => challenges = result.data)
     .catch(err => console.log(err))
 }
@@ -180,26 +192,27 @@ function theChallenges(signs) {
   return signs
 }
 
-// Challenge questions
+//Challenge questions
 // const challenges = [
+//   {},
 //   {
-//     image: "./images/A_sign.png",
-//     answer: "A",
+//     imageFile: "./images/A_sign.png",
+//     alphabet: "A",
 //   },
 //   {
-//     image: "./images/B_sign.jpg",
-//     answer: "B",
+//     imageFile: "./images/B_sign.jpg",
+//     alphabet: "B",
 //   },
 //   {
-//     image: "./images/C_sing.jpg",
-//     answer: "C",
+//     imageFile: "./images/C_sing.jpg",
+//     alphabet: "C",
 //   },
 //   {
-//     image: "./images/D_sign.png",
-//     answer: "D",
+//     imageFile: "./images/D_sign.png",
+//     alphabet: "D",
 //   },
 //   {
-//     image: "./images/E_sign.png",
-//     answer: "E",
+//     imageFile: "./images/E_sign.png",
+//     alphabet: "E",
 //   },
 // ];

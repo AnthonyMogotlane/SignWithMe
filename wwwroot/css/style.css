@@ -1,5 +1,6 @@
 /* Fonts */
 @import url("https://fonts.googleapis.com/css2?family=Nabla&display=swap");
+@import url("https://fonts.cdnfonts.com/css/games");
 
 * {
   margin: 0;
@@ -7,8 +8,17 @@
   box-sizing: border-box;
 }
 
-body {
-  background-image: url(./images/raised-up-i-love-you-hands-gesture-with-diverse-skin-tone-isolated-on-white-background-unity-concept-with-i-love-you-sign-language-vector.jpg) !important;
+.overlayer {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url(../images/raised-up-i-love-you-hands-gesture-with-diverse-skin-tone-isolated-on-white-background-unity-concept-with-i-love-you-sign-language-vector.jpg);
+  z-index: -1;
+  opacity: .8;
 }
 
 /* Teachable machine style */
@@ -30,34 +40,25 @@ body {
 
 .challenge,
 .answer {
-  background: #eee;
+  background: #999 !important;
   padding: 1.75em;
+  opacity: .9;
 }
-
-/* .challenge {
-  border-radius: 2em 0 0 2em;
-}
-
-.answer {
-  border-radius: 0 2em 2em 0;
-} */
 
 .challenge,
 .answer {
-  /* display: block; */
   width: 346px;
   height: 380px;
-  /* background-color: #999; */
   border-radius: 6em 4em 4em 4em / 5em 5em 5em 5em !important;
-}
-
-.challenge-container {
-  /* padding-top: 7em; */
-  /* background: #000; */
 }
 
 .hidden {
   display: none;
+}
+
+a {
+  text-decoration: none !important;
+  color: #fff !important;
 }
 
 img {
@@ -66,14 +67,15 @@ img {
   border-radius: 0.4em;
 }
 
-.controllers {
-  /* height: 100vh; */
-}
-
 .start-arrow {
   font-size: 50px;
   color: gold;
   animation: up-down 1s infinite;
+}
+
+.trans {
+  transition: all 100s ease-in !important;
+  animation: up-down 2s;
 }
 
 .start-btn,
@@ -82,15 +84,44 @@ img {
   height: 100px;
   border-radius: 6em 4em 4em 4em / 5em 5em 5em 5em !important;
   font-size: 3em !important;
-  font-family: "Nabla", cursive !important;
+}
+
+.next-btn,
+.try-btn {
+  width: 80px;
+  height: 50px;
+  border-radius: 6em 4em 4em 4em / 5em 5em 5em 5em !important;
+  font-size: 1.5em !important;
+  font-family: "Games", sans-serif !important;
+}
+
+.try-btn {
+  width: 150px;
 }
 
 .play-btn {
-  width: 300px;
+  width: 300px !important;
 }
 
 .progress-container {
   width: 200px;
+}
+
+.preloader-container {
+  margin-top: 8em;
+}
+
+.score-container {
+  font-weight: 500 !important;
+  color: green !important;
+}
+
+.at-right {
+  animation: up-down 1s infinite;
+}
+
+.great {
+  transition: all 5s ease-in;
 }
 
 /* keyframes */
@@ -98,6 +129,7 @@ img {
   from {
     opacity: 0;
   }
+
   top {
     opacity: 1;
   }
